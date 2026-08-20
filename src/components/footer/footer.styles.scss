@@ -1,0 +1,33 @@
+.footer-container{
+    padding-top:50px;
+    background-color:black;
+    color: white;
+}
+
+.footer-header-5{
+    font: normal normal normal 21px/1.25em Museo700,serif;
+}
+.footer-link {
+    color: white;
+    text-decoration: none;
+    transition: color 0.4s ease;
+    font-size: 20px;
+    // font-family:Georgia, 'Times New Roman', Times, serif
+}
+.footer-link:hover {
+    color: var(--theme-color, #72D822);
+}
+
+.social-col{
+    display: flex;
+    justify-content: center;
+}
+
+.footer-divider{
+    border-top: 2px solid rgb(122, 122, 122);
+    margin: 15px 0;
+}
+
+.footer-social-link{
+    margin-bottom:10px;
+}

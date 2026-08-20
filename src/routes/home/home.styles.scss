@@ -1,0 +1,26 @@
+.home-page {
+    background-color: black;
+    color: white;
+    min-height: calc(100vh - (90px + 16px)); // Adjust for navbar height and margin
+    display: flex;
+    flex-direction: column;
+    font: normal normal normal 21px/1.25em Museo700,serif;
+}
+
+.border-top-white {
+    border-top: 2px solid white;
+    margin-top: 20px;
+    padding: 25px 0;
+}
+
+.center-content{
+    padding: 0 13%;
+}
+
+.link{
+    color: white;
+}
+
+.no-padding{
+    padding: 0;
+}

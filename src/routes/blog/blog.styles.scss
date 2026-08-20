@@ -1,0 +1,40 @@
+.blog-page {
+    background-color: black;
+    color: white;
+    min-height: calc(100vh - (317px + 16px)); // Adjust for navbar height and margin
+    display: flex;
+    flex-direction: column;
+    font: normal normal normal 21px/1.25em Museo700,serif;
+}
+
+.border-top-white {
+    border-top: 2px solid white;
+    margin-top: 20px;
+    padding: 25px 0;
+}
+
+.center-content{
+    padding: 0 13%;
+}
+
+.link{
+    color: white;
+}
+
+.no-padding{
+    padding: 0;
+}
+
+.blog-header{
+    font-size: 75px;
+}
+
+.blog-card-row{
+    margin-bottom: 40px;
+    background-color: var(--theme-color, #4a8c16);
+    border-radius: 8px;
+}
+
+.blog-filter-form, .blog-filter-button{
+    margin-bottom:20px;
+}

@@ -1,0 +1,67 @@
+.about-us-page{
+    min-height: calc(100vh - (90px + 16px)); // Adjust for navbar height and margin
+    display: flex;
+    flex-direction: column;
+    font: normal normal normal 24px/1.25em Museo700, serif;
+    color: white;
+}
+
+.about-us-banner{
+    width: 100%;
+    max-width: 980px;
+    height: auto;
+    // display: block;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.question-answer-container{
+    width:100%;
+    max-width: 980px;
+}
+
+.qa-odd{
+    background-color: var(--theme-color, #4a8c16);
+}
+
+.qa-even{
+    background-color: var(--theme-color-dark, #345e0f);
+}
+
+.question-header{
+    font-size: 50px;
+    text-decoration: underline;
+}
+
+.question-answer{
+    font-size: 22px;
+    padding: 0 15px 20px 15px;
+}
+
+.accordion-button{
+    text-align: center;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: var(--theme-color-dark, #345e0f);
+    color:white;
+}
+
+.accordion-button {
+    background-color: var(--theme-color, #4a8c16);
+    color: black;
+}
+
+.accordion-header > button{
+    border-radius: 0 0 0 0;
+}
+
+.about-us-title{
+    font-size: 70px;
+}
+@media (max-width: 767.98px) {
+    // md and below
+    .question-header {
+        font-size: 30px;
+    }
+}

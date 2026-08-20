@@ -1,0 +1,79 @@
+// Constrain images inside blog post content
+.blog-post-insert img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border: black solid 3px;
+    border-radius: 8px;
+}
+.blog-post-page{
+    margin-top:20px;
+    width: 100%;
+    background-color: black;
+    color: black;
+    min-height: calc(100vh - (317px + 16px)); // Adjust for navbar height and margin
+    display: flex;
+    flex-direction: column;
+    font: normal normal normal 21px/1.25em Museo700,serif;
+}
+
+.blog-post-image{
+    // margin-bottom:20px;
+    // padding-top:20px;
+    // border: none;
+    // aspect-ratio: 16 / 9;
+    width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  margin-top:10px;
+}
+
+.blog-post-content{
+    background-color: var(--theme-color, #4a8c16);
+    padding-top:20px;
+}
+
+.back-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: inline-block;
+    margin-bottom: 20px;
+    transition: color 0.4s ease;
+}
+
+.related-posts-container{
+    color: white;
+    margin-top: 20px;
+}
+
+.back-link:hover {
+    color: var(--theme-color, #72D822);
+}
+
+.blog-post-insert{
+    padding-bottom:20px;
+    font-size: 80%;
+}
+
+.blog-image-container {
+    border: 3px solid #622737;
+    padding: 1px;
+    background-color: rgb(59 61 155);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    margin-top: 0;
+    >img {
+        border: 1px solid white;
+        padding: 3px;
+    }
+}
+
+.related-posts-title{
+    color: white;
+}
+
+.publish-date{
+    font-size: 16px;
+}

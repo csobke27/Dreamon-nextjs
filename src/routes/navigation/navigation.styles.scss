@@ -1,0 +1,81 @@
+.navigation-container {
+    // background-color: #dba000;
+    transition: color 10s ease;
+    background: linear-gradient(90deg, #000000 7.309942078172114%, var(--theme-color, #72D822) 100%);
+}
+
+.container{
+    margin-left: 10px !important;
+}
+
+.logo{
+    span{
+        vertical-align: -webkit-baseline-middle;
+    }
+}
+
+.footer-nav{
+    background-color: #333332;
+}
+
+@media (max-width: 400px){
+    .nav-name{
+        display: none;
+    }
+}
+
+.outlet-container {
+    transition: opacity 1s ease-in-out;
+    opacity: 1;
+    padding-top: 90px + 16px;
+    background: var(--outlet-bg, white); // fallback to black
+}
+
+.outlet-container.fade-out {
+    opacity: 0;
+}
+
+.outlet-container.fade-in {
+    opacity: 1;
+}
+
+.offcanvas {
+    background: #0f0f0f !important;
+    color: white !important;
+}
+
+
+.btn-close {
+    // background-color: white !important;
+    filter: invert(1) grayscale(0) brightness(5) !important;
+    transition: all 0.2s ease, visibility 0s;
+}
+.btn-close:hover {
+    transform: rotate(360deg) !important;
+}
+
+.navbar-brand{
+    margin-left: 16px;
+}
+
+.navbar-hidden {
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+}
+
+.navbar-show {
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+#offcanvasNavbarLabel-expand-false{
+    width:50% !important;
+}
+
+Nav.Link{
+    font-size:20px;
+}
+
+.navbar-toggler{
+    box-shadow: 0 0 0 0.25rem;
+}
