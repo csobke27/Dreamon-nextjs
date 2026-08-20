@@ -19,8 +19,8 @@ export const metadata = {
     "Dreamon Interactive is an independent game studio building story-driven games, including Nyx Legacy.",
   manifest: "/manifest.json",
   icons: {
-    icon: "/favicon.ico",
-    apple: "/logo192.png",
+    icon: "/images/Dreamonbrandmerk-no-background.png",
+    apple: "/images/Dreamonbrandmerk-no-background.png",
   },
 };
 
