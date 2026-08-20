@@ -11,6 +11,8 @@
 # production
 /build
 /.next
+/.open-next
+/.wrangler
 /.swc
 
 # misc

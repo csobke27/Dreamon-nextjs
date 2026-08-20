@@ -19,8 +19,8 @@
     "build": "next build",
     "start": "next start",
     "test": "jest",
-    "build:worker": "opennextjs-cloudflare",
-    "deploy": "opennextjs-cloudflare && wrangler deploy"
+    "build:worker": "opennextjs-cloudflare build",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
   },
   "browserslist": {
     "production": [
