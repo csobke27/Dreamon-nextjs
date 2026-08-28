@@ -14,6 +14,8 @@
 /.open-next
 /.wrangler
 /.swc
+/dist/
+/.sanity
 
 # misc
 .DS_Store
