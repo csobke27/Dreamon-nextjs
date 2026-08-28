@@ -9,19 +9,19 @@ const BlogCard = ({ slug, title, thumbnail, content, layout = "vertical" }) => {
 
     return (
         <Container className="blog-card-container">
-            <Link href={`/post/${slug}`} className="blog-card-link">
+            <Link href={`/blog/${slug}`} className="blog-card-link">
                 <Row>
                     {layout === "horizontal" ? (
                         <>
-                                {thumbnail && (
-                                    <>
+                            {thumbnail && (
+                                <>
                                     <Col sm={4}>
                                         <img className="blog-card-image" src={thumbnail} alt="Blog Post" />
                                     </Col>
-                                    </>
-                                )}
+                                </>
+                            )}
                             <Col>
-                                <div className="blog-card-title" style={{marginTop: '10px'}}>{resolvedTitle.replace(/&nbsp;/g, " ")}</div>
+                                <div className="blog-card-title" style={{ marginTop: '10px' }}>{resolvedTitle.replace(/&nbsp;/g, " ")}</div>
                                 <div className="blog-card-content" dangerouslySetInnerHTML={{ __html: resolvedContent }} /> {/*style={{ height: '50px', overflow: 'hidden' }} */}
                             </Col>
                         </>

@@ -96,8 +96,8 @@ export default function BlogPageClient({
                 >
                   <option value="">All Posts</option>
                   {categories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.name} ({category.count})
+                    <option key={category.id} value={category.title}>
+                      {category.title} ({category.count})
                     </option>
                   ))}
                 </Form.Select>
@@ -134,7 +134,7 @@ export default function BlogPageClient({
                     <BlogCard
                       slug={post.slug}
                       title={post.title}
-                      thumbnail={post.jetpack_featured_media_url}
+                      thumbnail={post.thumbnail}
                       content={post.excerpt}
                       layout={cardLayout}
                     />

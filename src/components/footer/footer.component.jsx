@@ -10,7 +10,7 @@ const Footer = () => {
             <Animation type="fade-in">
             <Row>
                 <div className="d-md-none footer-divider"></div>
-                <Col className="social-col" md={6}>
+                <Col className="social-col" md={12}>
                     <div className="footer-sub-container">
                         <h5 className="footer-header-5">Follow us on:</h5>
                         <div className="d-inline-flex align-items-center footer-social-link">
@@ -55,20 +55,20 @@ const Footer = () => {
                     </div>
                 </Col>
                 <div className="d-md-none footer-divider"></div>
-                <Col className="social-col" md={6}>
+                {/* <Col className="social-col" md={6}>
                     <div className="footer-sub-container">
                         <h5 className="footer-header-5">Help us out on our journey:</h5>
                         <div className="">
                             <a className="footer-link" href="https://www.gofundme.com/f/nyx-legacy-a-story-to-be-told" target="_blank" rel="noopener noreferrer">GoFundMe</a>
                         </div>
                     </div>
-                </Col>
-                <div className="d-md-none footer-divider"></div>
+                </Col> */}
+                {/* <div className="d-md-none footer-divider"></div> */}
             </Row>
             </Animation>
             <Row>
                 <Col className="text-center py-3">
-                    <p>© 2025 Dreamon Interactive. All rights reserved.</p>
+                    <p>© 2026 Dreamon Interactive. All rights reserved.</p>
                 </Col>
             </Row>
             

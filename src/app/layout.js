@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.scss";
 
 import SiteShell from "./site-shell";
+// import { SanityLive } from "../sanity/lib/live";
 
 const museo700 = localFont({
   src: "../../public/fonts/Museo 700.otf",
@@ -29,6 +30,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={museo700.variable}>
         <SiteShell>{children}</SiteShell>
+        {/* <SanityLive /> */}
       </body>
     </html>
   );

@@ -8,8 +8,12 @@ import Carousel from "react-bootstrap/Carousel";
 
 import Animation from "../../components/animation-section/animation-section.component";
 import BlogCard from "../../components/blog-card/blog-card.component";
+import { urlFor } from "../../sanity/lib/image";
 
 export default function NyxLegacyPageClient({ blogPosts }) {
+  const getThumbnailUrl = (thumbnail) =>
+    thumbnail?.asset ? urlFor(thumbnail).width(1200).auto("format").url() : null;
+
   return (
     <Container fluid className="nyx-legacy-page no-padding">
       <Row>
@@ -118,7 +122,7 @@ export default function NyxLegacyPageClient({ blogPosts }) {
                       <BlogCard
                         slug={post.slug}
                         title={post.title}
-                        thumbnail={post.jetpack_featured_media_url}
+                        thumbnail={getThumbnailUrl(post.thumbnail)}
                         content={post.excerpt}
                       />
                     </Animation>
@@ -133,7 +137,7 @@ export default function NyxLegacyPageClient({ blogPosts }) {
                         <BlogCard
                           slug={post.slug}
                           title={post.title}
-                          thumbnail={post.jetpack_featured_media_url}
+                          thumbnail={getThumbnailUrl(post.thumbnail)}
                           content={post.excerpt}
                         />
                       </Animation>

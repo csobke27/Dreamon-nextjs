@@ -38,7 +38,10 @@ function getThemeForPath(pathname) {
 
 export default function SiteShell({ children }) {
   const pathname = usePathname();
+  const isStudioRoute = pathname === "/studio" || pathname.startsWith("/studio/");
   const theme = getThemeForPath(pathname);
+
+  if (isStudioRoute) return children;
 
   return (
     <div

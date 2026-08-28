@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { PortableText } from "@portabletext/react";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -10,10 +11,27 @@ import Carousel from "react-bootstrap/Carousel";
 
 import Animation from "../../../components/animation-section/animation-section.component";
 import BlogCard from "../../../components/blog-card/blog-card.component";
+import { urlFor } from "../../../sanity/lib/image";
 
-function formatTitle(title) {
-  return title.replace(/&nbsp;/g, " ");
-}
+const portableTextComponents = {
+  types: {
+    image: ({ value }) => {
+      if (!value?.asset) {
+        return null;
+      }
+
+      return (
+        <figure>
+          <img
+            src={urlFor(value).width(1200).auto("format").url()}
+            alt={value.alt || ""}
+            loading="lazy"
+          />
+        </figure>
+      );
+    },
+  },
+};
 
 export default function BlogPostPageClient({ post, relatedPosts }) {
   return (
@@ -26,22 +44,24 @@ export default function BlogPostPageClient({ post, relatedPosts }) {
               <Link href="/blog" className="back-link">
                 &larr; Back to Blog
               </Link>
-              {post.jetpack_featured_media_url && (
+              {post.thumbnail && (
                 <Image
                   className="blog-post-image"
-                  src={post.jetpack_featured_media_url}
-                  alt={formatTitle(post.title.rendered)}
+                  src={post.thumbnail}
+                  alt={post.thumbnailAlt || post.title}
                   fluid
                 />
               )}
               <div className="blog-post-content center-content">
                 <h1 className="blog-post-title">
-                  {formatTitle(post.title.rendered)}{" "}
+                  {post.title}{" "}
                   <span className="publish-date">
                     - published on {new Date(post.date).toLocaleDateString()}
                   </span>
                 </h1>
-                <div className="blog-post-insert" dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+                <div className="blog-post-insert">
+                  <PortableText value={post.body} components={portableTextComponents} />
+                </div>
               </div>
             </div>
           </Animation>
@@ -57,7 +77,7 @@ export default function BlogPostPageClient({ post, relatedPosts }) {
                       <BlogCard
                         slug={relatedPost.slug}
                         title={relatedPost.title}
-                        thumbnail={relatedPost.jetpack_featured_media_url}
+                        thumbnail={relatedPost.thumbnail}
                         content={relatedPost.excerpt}
                       />
                     </Col>
@@ -72,7 +92,7 @@ export default function BlogPostPageClient({ post, relatedPosts }) {
                         <BlogCard
                           slug={relatedPost.slug}
                           title={relatedPost.title}
-                          thumbnail={relatedPost.jetpack_featured_media_url}
+                          thumbnail={relatedPost.thumbnail}
                           content={relatedPost.excerpt}
                         />
                       </Animation>

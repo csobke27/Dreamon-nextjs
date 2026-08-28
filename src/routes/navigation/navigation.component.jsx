@@ -73,7 +73,7 @@ const Navigation = () => {
                                 <Nav.Link as={Link} href="/about-us">About Us</Nav.Link>
                                 <Nav.Link as={Link} href="/nyx-legacy">Nyx Legacy</Nav.Link>
                                 <Nav.Link as={Link} href="/blog">Blog</Nav.Link>
-                                <Nav.Link href="https://www.gofundme.com/f/nyx-legacy-a-story-to-be-told">GoFundMe</Nav.Link>
+                                {/* <Nav.Link href="https://www.gofundme.com/f/nyx-legacy-a-story-to-be-told">GoFundMe</Nav.Link> */}
                                 <Row>
                                     <Col className="text-center">
                                         <Nav.Link href="https://discord.gg/dzW8VxDh4a" target="_blank" rel="noopener noreferrer">

@@ -6,8 +6,8 @@ export default function NotFound() {
       <h1>404 Page Not Found!</h1>
       <p>The page you requested does not exist, or the blog post is no longer available.</p>
       <p>
-        <Link className="link" href="/blog">
-          Return to the blog
+        <Link className="link" href="/">
+          Return Home
         </Link>
       </p>
     </div>
