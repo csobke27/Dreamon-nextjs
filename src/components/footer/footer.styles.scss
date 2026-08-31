@@ -4,9 +4,15 @@
     color: white;
 }
 
+.footer-sub-container{
+    padding: 0 13%;
+    justify-content: left;
+}
+
 .footer-header-5{
     font: normal normal normal 21px/1.25em Museo700,serif;
 }
+
 .footer-link {
     color: white;
     text-decoration: none;
@@ -20,7 +26,9 @@
 
 .social-col{
     display: flex;
-    justify-content: center;
+    @media (max-width: 768px) {
+        justify-content: center;
+    }
 }
 
 .footer-divider{

@@ -10,43 +10,38 @@ const Footer = () => {
             <Animation type="fade-in">
             <Row>
                 <div className="d-md-none footer-divider"></div>
-                <Col className="social-col" md={12}>
+                <Col className="social-col" xs={12}>
                     <div className="footer-sub-container">
                         <h5 className="footer-header-5">Follow us on:</h5>
-                        <div className="d-inline-flex align-items-center footer-social-link">
-                            {/* <img alt="Discord" src="/images/discord-circle.png" width="30" height="30" className="me-2" /> */}
+                        <div className="d-inline-flex footer-social-link">
                             <a className="footer-link" href="https://discord.gg/dzW8VxDh4a" target="_blank" rel="noopener noreferrer">
                                 <img alt="Discord" src="/images/discord-circle.png" width="30" height="30" className="me-2" />
                                 Discord
                             </a>
                         </div>
                         <br></br>
-                        <div className="d-inline-flex align-items-center footer-social-link">
-                            {/* <img alt="Twitch" src="/images/twitch-circle.png" width="30" height="30" className="me-2" /> */}
+                        <div className="d-inline-flex footer-social-link">
                             <a className="footer-link" href="https://www.twitch.tv/rattacookie" target="_blank" rel="noopener noreferrer">
                                 <img alt="Twitch" src="/images/twitch-circle.png" width="30" height="30" className="me-2" />
                                 Twitch
                             </a>
                         </div>
                         <br></br>
-                        <div className="d-inline-flex align-items-center footer-social-link">
-                            {/* <img alt="YouTube" src="/images/youtube-circle.png" width="30" height="30" className="me-2" /> */}
+                        <div className="d-inline-flex footer-social-link">
                             <a className="footer-link" href="https://www.youtube.com/@DreamonInteractive" target="_blank" rel="noopener noreferrer">
                                 <img alt="YouTube" src="/images/youtube-circle.png" width="30" height="30" className="me-2" />
                                 YouTube
                             </a>
                         </div>
                         <br></br>
-                        <div className="d-inline-flex align-items-center footer-social-link">
-                            {/* <img alt="Facebook" src="/images/facebook-circle.png" width="30" height="30" className="me-2" /> */}
+                        <div className="d-inline-flex footer-social-link">
                             <a className="footer-link" href="https://www.facebook.com/profile.php?id=61573985252362" target="_blank" rel="noopener noreferrer">
                                 <img alt="Facebook" src="/images/facebook-circle.png" width="30" height="30" className="me-2" />
                                 Facebook
                             </a>
                         </div>
                         <br></br>
-                        <div className="d-inline-flex align-items-center footer-social-link">
-                            {/* <img alt="TikTok" src="/images/tiktok-circle.png" width="30" height="30" className="me-2" /> */}
+                        <div className="d-inline-flex footer-social-link">
                             <a className="footer-link" href="https://www.tiktok.com/@dreamonsocial" target="_blank" rel="noopener noreferrer">
                                 <img alt="TikTok" src="/images/tiktok-circle.png" width="30" height="30" className="me-2" />
                                 TikTok
