@@ -15,7 +15,7 @@ import { useAuth } from "../../context/auth-context";
 
 const Navigation = () => {
     const pathname = usePathname();
-    const { user, loading } = useAuth();
+    const { user, role, loading } = useAuth();
     const [hideNavbar, setHideNavbar] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const lastScrollY = useRef(0);
@@ -75,6 +75,12 @@ const Navigation = () => {
                                 <Nav.Link as={Link} href="/about-us">About Us</Nav.Link>
                                 <Nav.Link as={Link} href="/nyx-legacy">Nyx Legacy</Nav.Link>
                                 <Nav.Link as={Link} href="/blog">Blog</Nav.Link>
+                                {!loading && (role === "admin" || role === "dev") && (
+                                    <Nav.Link as={Link} href="/chat">Chat</Nav.Link>
+                                )}
+                                {!loading && role === "admin" && (
+                                    <Nav.Link as={Link} href="/admin/file-log">Bestanden-log</Nav.Link>
+                                )}
                                 {!loading && (
                                     user ? (
                                         <Nav.Link as={Link} href="/account">Mijn account</Nav.Link>

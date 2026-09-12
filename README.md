@@ -57,6 +57,24 @@ Get these from the Supabase dashboard under **Project Settings → API Keys** (u
 - `src/app/{login,register,forgot-password,reset-password,account}` — the auth pages
 - `src/app/auth/callback/route.js` — handles the links from confirmation/reset emails
 
+## Chat (Supabase)
+
+An internal chat for `dev`/`admin` accounts only — a team channel, an admin-only channel, and 1-on-1 DMs, with file sharing and fenced-code-block rendering. Regular `user` accounts cannot see `/chat` at all (server-side redirect, backed by RLS).
+
+**One-time setup**, after the Authentication setup above: run [`supabase/migrations/0002_chat.sql`](supabase/migrations/0002_chat.sql), then [`0003_fix_dm_channel_policy.sql`](supabase/migrations/0003_fix_dm_channel_policy.sql) and [`0004_fix_channel_members_recursion.sql`](supabase/migrations/0004_fix_channel_members_recursion.sql) — both are small corrections discovered while testing DMs, kept as separate files rather than rewriting `0002` so the migration history stays honest. This also creates the private `chat-files` Storage bucket.
+
+**Design notes:**
+
+- New messages are polled every 4s rather than pushed via Supabase Realtime — Realtime subscriptions connected fine in testing but never delivered `postgres_changes` events for these RLS-protected tables, for a reason we couldn't pin down. Polling is simple and reliable; swap it for Realtime later if someone figures out the root cause.
+- The admin file-share log (`/admin/file-log`, admin-only) is powered by the `admin_file_log()` Postgres function, which deliberately never selects `messages.body` — admins can see *which file was shared with whom*, never message content.
+- File downloads use short-lived signed URLs (`createSignedUrl`, 60s) since the `chat-files` bucket is private.
+
+**Where the code lives:**
+
+- `src/app/chat/` — the chat UI (channel list, message thread, composer with file/code-block buttons)
+- `src/lib/chat/parse-message.js` — splits a message into text/code segments for rendering
+- `src/app/admin/file-log/` — the admin-only audit log
+
 ## Cloudflare Deployment
 
 The Cloudflare Worker configuration is in `wrangler.jsonc`. Before deploying, make sure the Sanity environment variables are available during the Cloudflare build and that Wrangler is authenticated.
