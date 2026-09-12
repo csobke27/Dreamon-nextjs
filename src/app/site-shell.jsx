@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 
 import Footer from "../components/footer/footer.component";
 import Navigation from "../routes/navigation/navigation.component";
+import { AuthProvider } from "../context/auth-context";
 
 const DEFAULT_THEME = {
   accent: "#72D822",
@@ -44,17 +45,19 @@ export default function SiteShell({ children }) {
   if (isStudioRoute) return children;
 
   return (
-    <div
-      style={{
-        "--theme-color": theme.accent,
-        "--theme-color-dark": theme.accentDark,
-        "--outlet-bg": theme.outletBg,
-        "--card-theme-color": theme.cardAccent,
-      }}
-    >
-      <Navigation />
-      <main className="outlet-container">{children}</main>
-      <Footer />
-    </div>
+    <AuthProvider>
+      <div
+        style={{
+          "--theme-color": theme.accent,
+          "--theme-color-dark": theme.accentDark,
+          "--outlet-bg": theme.outletBg,
+          "--card-theme-color": theme.cardAccent,
+        }}
+      >
+        <Navigation />
+        <main className="outlet-container">{children}</main>
+        <Footer />
+      </div>
+    </AuthProvider>
   );
 }

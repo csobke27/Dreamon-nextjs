@@ -11,9 +11,11 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { useAuth } from "../../context/auth-context";
 
 const Navigation = () => {
     const pathname = usePathname();
+    const { user, loading } = useAuth();
     const [hideNavbar, setHideNavbar] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const lastScrollY = useRef(0);
@@ -73,6 +75,13 @@ const Navigation = () => {
                                 <Nav.Link as={Link} href="/about-us">About Us</Nav.Link>
                                 <Nav.Link as={Link} href="/nyx-legacy">Nyx Legacy</Nav.Link>
                                 <Nav.Link as={Link} href="/blog">Blog</Nav.Link>
+                                {!loading && (
+                                    user ? (
+                                        <Nav.Link as={Link} href="/account">Mijn account</Nav.Link>
+                                    ) : (
+                                        <Nav.Link as={Link} href="/login">Inloggen</Nav.Link>
+                                    )
+                                )}
                                 {/* <Nav.Link href="https://www.gofundme.com/f/nyx-legacy-a-story-to-be-told">GoFundMe</Nav.Link> */}
                                 <Row>
                                     <Col className="text-center">
