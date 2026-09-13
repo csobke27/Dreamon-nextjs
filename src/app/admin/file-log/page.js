@@ -3,7 +3,7 @@ import { createClient } from "../../../lib/supabase/server";
 import FileLogPageClient from "./page-client";
 
 export const metadata = {
-  title: "Dreamon | Bestanden-logboek",
+  title: "Dreamon | File-Share Log",
 };
 
 export default async function FileLogPage() {

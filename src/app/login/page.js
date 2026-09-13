@@ -1,7 +1,7 @@
 import LoginPageClient from "./page-client";
 
 export const metadata = {
-  title: "Dreamon | Inloggen",
+  title: "Dreamon | Log In",
 };
 
 export default function LoginPage() {

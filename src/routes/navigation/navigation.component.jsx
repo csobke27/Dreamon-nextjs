@@ -75,17 +75,17 @@ const Navigation = () => {
                                 <Nav.Link as={Link} href="/about-us">About Us</Nav.Link>
                                 <Nav.Link as={Link} href="/nyx-legacy">Nyx Legacy</Nav.Link>
                                 <Nav.Link as={Link} href="/blog">Blog</Nav.Link>
-                                {!loading && (role === "admin" || role === "dev") && (
+                                {!loading && (role === "admin" || role === "dev" || role === "tester") && (
                                     <Nav.Link as={Link} href="/chat">Chat</Nav.Link>
                                 )}
                                 {!loading && role === "admin" && (
-                                    <Nav.Link as={Link} href="/admin/file-log">Bestanden-log</Nav.Link>
+                                    <Nav.Link as={Link} href="/admin/file-log">File Log</Nav.Link>
                                 )}
                                 {!loading && (
                                     user ? (
-                                        <Nav.Link as={Link} href="/account">Mijn account</Nav.Link>
+                                        <Nav.Link as={Link} href="/account">My Account</Nav.Link>
                                     ) : (
-                                        <Nav.Link as={Link} href="/login">Inloggen</Nav.Link>
+                                        <Nav.Link as={Link} href="/login">Log In</Nav.Link>
                                     )
                                 )}
                                 {/* <Nav.Link href="https://www.gofundme.com/f/nyx-legacy-a-story-to-be-told">GoFundMe</Nav.Link> */}

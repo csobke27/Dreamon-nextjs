@@ -17,11 +17,11 @@ export default function AccountPageClient({ email, role }) {
   return (
     <Container fluid className="auth-page">
       <div className="auth-card">
-        <h1>Mijn account</h1>
-        <p>Ingelogd als {email}</p>
-        <p>Rol: {role}</p>
+        <h1>My account</h1>
+        <p>Logged in as {email}</p>
+        <p>Role: {role}</p>
         <Button variant="primary" onClick={handleSignOut}>
-          Uitloggen
+          Log out
         </Button>
       </div>
     </Container>

@@ -13,20 +13,20 @@ export default function FileLogPageClient({ entries }) {
   return (
     <Container fluid className="auth-page" style={{ alignItems: "flex-start", paddingTop: 40 }}>
       <div className="auth-card" style={{ maxWidth: 900 }}>
-        <h1>Bestanden-logboek</h1>
-        <p>Wie deelde welk bestand, in welk gesprek. Berichtinhoud is niet zichtbaar.</p>
+        <h1>File-share log</h1>
+        <p>Who shared which file, in which conversation. Message content is never shown.</p>
 
         {entries.length === 0 ? (
-          <p>Nog geen bestanden gedeeld.</p>
+          <p>No files shared yet.</p>
         ) : (
           <Table striped bordered hover variant="dark" responsive>
             <thead>
               <tr>
-                <th>Bestand</th>
-                <th>Grootte</th>
-                <th>Gedeeld door</th>
+                <th>File</th>
+                <th>Size</th>
+                <th>Shared by</th>
                 <th>In</th>
-                <th>Wanneer</th>
+                <th>When</th>
               </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@ export default function FileLogPageClient({ entries }) {
                   <td>{formatFileSize(entry.file_size)}</td>
                   <td>{entry.sender_email}</td>
                   <td>{entry.channel_type === "dm" ? entry.channel_label : `#${entry.channel_label}`}</td>
-                  <td>{new Date(entry.shared_at).toLocaleString("nl-NL")}</td>
+                  <td>{new Date(entry.shared_at).toLocaleString("en-US")}</td>
                 </tr>
               ))}
             </tbody>

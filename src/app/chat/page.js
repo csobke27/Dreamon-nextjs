@@ -20,9 +20,10 @@ export default async function ChatPage() {
     .eq("id", data.user.id)
     .single();
 
-  if (!profile || (profile.role !== "admin" && profile.role !== "dev")) {
+  const allowedRoles = ["admin", "dev", "tester"];
+  if (!profile || !allowedRoles.includes(profile.role)) {
     redirect("/");
   }
 
-  return <ChatPageClient userId={data.user.id} />;
+  return <ChatPageClient userId={data.user.id} role={profile.role} />;
 }

@@ -11,8 +11,22 @@ import { parseMessageBody } from "../../lib/chat/parse-message";
 function channelLabel(channel, profileMap, userId) {
   if (channel.type === "team") return "Team chat";
   if (channel.type === "admin") return "Admin only";
+  if (channel.type === "testers") return "Testers";
   const partner = channel.memberIds?.find((id) => id !== userId);
-  return profileMap[partner]?.email ?? "Gesprek";
+  return profileMap[partner]?.email ?? "Conversation";
+}
+
+const CLEANUP_LAST_RUN_KEY = "dreamon_chat_cleanup_last_run";
+const CLEANUP_INTERVAL_MS = 24 * 60 * 60 * 1000;
+
+// Backup for the pg_cron job in 0005_chat_retention.sql, in case it isn't
+// available on the project's plan: runs the same cleanup at most once a day
+// whenever a dev/admin opens the chat.
+async function maybeRunRetentionCleanup(supabase) {
+  const last = window.localStorage.getItem(CLEANUP_LAST_RUN_KEY);
+  if (last && Date.now() - Number(last) < CLEANUP_INTERVAL_MS) return;
+  window.localStorage.setItem(CLEANUP_LAST_RUN_KEY, String(Date.now()));
+  await supabase.rpc("cleanup_old_chat_data");
 }
 
 function formatFileSize(bytes) {
@@ -32,7 +46,7 @@ function MessageBody({ body }) {
           className="chat-code-copy"
           onClick={() => navigator.clipboard.writeText(seg.content)}
         >
-          Kopieer
+          Copy
         </Button>
         <pre style={{ margin: 0 }}>
           <code>{seg.content}</code>
@@ -44,7 +58,7 @@ function MessageBody({ body }) {
   );
 }
 
-export default function ChatPageClient({ userId }) {
+export default function ChatPageClient({ userId, role }) {
   const { supabase } = useAuth();
   const [channels, setChannels] = useState([]);
   const [profileMap, setProfileMap] = useState({});
@@ -86,6 +100,7 @@ export default function ChatPageClient({ userId }) {
 
   useEffect(() => {
     loadChannelsAndRoster();
+    maybeRunRetentionCleanup(supabase);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -121,8 +136,8 @@ export default function ChatPageClient({ userId }) {
       return;
     }
 
-    // Geen .select() na deze insert: je bent nog geen lid van dit kanaal, dus
-    // de select-policy zou de net aangemaakte rij nog niet aan je willen teruggeven.
+    // No .select() after this insert: you're not a member of this channel
+    // yet, so the select policy wouldn't hand the new row back to you.
     const newChannelId = crypto.randomUUID();
     const { error } = await supabase.from("channels").insert({ id: newChannelId, type: "dm" });
     if (error) {
@@ -130,8 +145,8 @@ export default function ChatPageClient({ userId }) {
       return;
     }
 
-    // Los van elkaar (niet als 1 insert met 2 rijen): de tweede rij mag alleen
-    // toegevoegd worden als de eerste (jijzelf) al zichtbaar/aanwezig is.
+    // Separate inserts (not one insert with 2 rows): the second row is only
+    // allowed once the first (yourself) is already visible/present.
     const { error: selfError } = await supabase
       .from("channel_members")
       .insert({ channel_id: newChannelId, user_id: userId });
@@ -151,7 +166,7 @@ export default function ChatPageClient({ userId }) {
     if (!textarea) return;
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
-    const selected = text.slice(start, end) || "jouw code hier";
+    const selected = text.slice(start, end) || "your code here";
     const before = text.slice(0, start);
     const after = text.slice(end);
     const insertion = "```\n" + selected + "\n```";
@@ -222,14 +237,17 @@ export default function ChatPageClient({ userId }) {
     if (data?.signedUrl) window.open(data.signedUrl, "_blank", "noopener,noreferrer");
   }
 
-  const teamChannels = channels.filter((c) => c.type === "team" || c.type === "admin");
+  const teamChannels = channels.filter(
+    (c) => c.type === "team" || c.type === "admin" || c.type === "testers"
+  );
+  const canStartDm = role === "admin" || role === "dev";
   const dmChannels = channels.filter((c) => c.type === "dm");
   const activeChannel = channels.find((c) => c.id === activeChannelId);
 
   return (
     <Container fluid className="chat-page px-0">
       <div className="chat-sidebar">
-        <div className="chat-sidebar-section-title">Kanalen</div>
+        <div className="chat-sidebar-section-title">Channels</div>
         {teamChannels.map((c) => (
           <div
             key={c.id}
@@ -240,7 +258,7 @@ export default function ChatPageClient({ userId }) {
           </div>
         ))}
 
-        <div className="chat-sidebar-section-title">Directe berichten</div>
+        <div className="chat-sidebar-section-title">Direct messages</div>
         {dmChannels.map((c) => (
           <div
             key={c.id}
@@ -251,10 +269,10 @@ export default function ChatPageClient({ userId }) {
           </div>
         ))}
 
-        {roster.length > 0 && (
+        {canStartDm && roster.length > 0 && (
           <Dropdown className="px-3 mt-2">
             <Dropdown.Toggle size="sm" variant="outline-light">
-              Nieuw gesprek
+              New conversation
             </Dropdown.Toggle>
             <Dropdown.Menu>
               {roster.map((p) => (
@@ -269,15 +287,15 @@ export default function ChatPageClient({ userId }) {
 
       <div className="chat-main">
         {!activeChannel ? (
-          <div className="chat-empty-state">Kies een kanaal om te beginnen.</div>
+          <div className="chat-empty-state">Pick a channel to get started.</div>
         ) : (
           <>
             <div className="chat-message-list" ref={messageListRef}>
               {messages.map((m) => (
                 <div key={m.id} className={`chat-message ${m.sender_id === userId ? "own" : ""}`}>
                   <div className="chat-message-meta">
-                    {profileMap[m.sender_id]?.email ?? "Onbekend"} ·{" "}
-                    {new Date(m.created_at).toLocaleString("nl-NL")}
+                    {profileMap[m.sender_id]?.email ?? "Unknown"} ·{" "}
+                    {new Date(m.created_at).toLocaleString("en-US")}
                   </div>
                   {m.body && (
                     <div className="chat-message-bubble">
@@ -309,7 +327,7 @@ export default function ChatPageClient({ userId }) {
                 variant="outline-light"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={sending}
-                title="Bestand versturen"
+                title="Send a file"
               >
                 📎
               </Button>
@@ -317,7 +335,7 @@ export default function ChatPageClient({ userId }) {
                 type="button"
                 variant="outline-light"
                 onClick={insertCodeBlock}
-                title="Code-blok invoegen"
+                title="Insert code block"
               >
                 {"</>"}
               </Button>
@@ -333,10 +351,10 @@ export default function ChatPageClient({ userId }) {
                     handleSend(e);
                   }
                 }}
-                placeholder="Typ een bericht..."
+                placeholder="Type a message..."
               />
               <Button type="submit" variant="primary" disabled={sending || !text.trim()}>
-                Versturen
+                Send
               </Button>
             </Form>
           </>
