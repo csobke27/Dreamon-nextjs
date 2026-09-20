@@ -1,6 +1,6 @@
--- Voer dit eenmalig uit in Supabase Dashboard -> SQL Editor -> New query -> Run
--- Zorgt dat een DM-kanaal nooit meer dan 2 leden kan krijgen, ook niet via
--- een directe API-aanroep die de website-knoppen omzeilt.
+-- Run this once in Supabase Dashboard -> SQL Editor -> New query -> Run
+-- Ensures that a DM channel can never have more than two members, including
+-- through a direct API call that bypasses the website controls.
 
 create or replace function public.channel_member_count(cid uuid)
 returns integer

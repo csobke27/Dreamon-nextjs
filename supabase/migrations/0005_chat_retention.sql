@@ -1,6 +1,6 @@
--- Voer dit eenmalig uit in Supabase Dashboard -> SQL Editor -> New query -> Run
--- Verwijdert automatisch chatberichten (en hun bestanden) ouder dan 90 dagen,
--- zodat er bij een eventuele hack niet jarenlang geschiedenis buit te maken is.
+-- Run this once in Supabase Dashboard -> SQL Editor -> New query -> Run
+-- Automatically deletes chat messages and their files after 90 days, limiting
+-- the amount of conversation history exposed in a potential security breach.
 
 create or replace function public.cleanup_old_chat_data()
 returns void
@@ -11,8 +11,8 @@ as $$
 declare
   cutoff timestamptz := now() - interval '90 days';
 begin
-  -- Eerst de daadwerkelijke bestanden uit Storage verwijderen, terwijl we
-  -- de paden nog weten (voordat de rijen hieronder verdwijnen).
+  -- Delete the actual Storage files first while their paths are still available,
+  -- before the rows below are removed.
   delete from storage.objects
   where bucket_id = 'chat-files'
   and name in (
@@ -22,17 +22,17 @@ begin
     where m.created_at < cutoff
   );
 
-  -- Verwijdert automatisch ook de bijbehorende attachments-rijen (cascade).
+  -- The related attachment rows are also deleted automatically through the cascade.
   delete from public.messages where created_at < cutoff;
 end;
 $$;
 
 grant execute on function public.cleanup_old_chat_data() to authenticated;
 
--- Beste manier: elke nacht automatisch laten draaien via de database zelf.
--- Dit vereist de pg_cron extensie. Als de onderstaande 2 statements een fout
--- geven (bijv. niet beschikbaar op het gratis plan), sla ze dan gewoon over:
--- de app heeft een backup-mechanisme dat hetzelfde doet.
+-- Preferred approach: run automatically every night through the database.
+-- This requires the pg_cron extension. If the two statements below fail
+-- (for example, because it is unavailable on the free plan), skip them:
+-- the app has a fallback mechanism that performs the same cleanup.
 create extension if not exists pg_cron with schema extensions;
 
 select cron.schedule(

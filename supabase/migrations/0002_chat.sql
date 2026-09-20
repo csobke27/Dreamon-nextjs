@@ -1,7 +1,7 @@
--- Voer dit eenmalig uit in Supabase Dashboard -> SQL Editor -> New query -> Run
--- Vereist dat 0001_profiles_and_roles.sql al is uitgevoerd.
+-- Run this once in Supabase Dashboard -> SQL Editor -> New query -> Run
+-- Requires 0001_profiles_and_roles.sql to have been run first.
 
--- Herbruikbare rol-checks voor de policies hieronder.
+-- Reusable role checks for the policies below.
 create or replace function public.is_dev_or_admin()
 returns boolean
 language sql
@@ -37,7 +37,7 @@ create table public.channels (
   created_at timestamptz not null default now()
 );
 
--- Team- en admin-kanaal zijn vaste, eenmalige kanalen. DM-kanalen ontstaan on-demand.
+-- Team and admin channels are permanent single instances. DM channels are created on demand.
 insert into public.channels (type, slug) values
   ('team', 'team-chat'),
   ('admin', 'admin-chat');
@@ -71,19 +71,20 @@ alter table public.channel_members enable row level security;
 alter table public.messages enable row level security;
 alter table public.attachments enable row level security;
 
--- Zelfde valkuil als bij profiles: zonder deze GRANTs "permission denied",
--- ongeacht de policies hieronder ("Automatically expose new tables" staat uit).
+-- Same pitfall as with profiles: without these GRANTs Postgres returns
+-- "permission denied" regardless of the policies below because
+-- "Automatically expose new tables" is disabled.
 grant select, insert on public.channels to authenticated;
 grant select, insert on public.channel_members to authenticated;
 grant select, insert on public.messages to authenticated;
 grant select, insert on public.attachments to authenticated;
 
--- Devs/admins moeten elkaar kunnen vinden om een DM te starten.
+-- Developers and admins must be able to find each other to start a DM.
 create policy "Devs and admins can view the dev/admin roster"
   on public.profiles for select
   using (public.is_dev_or_admin() and role in ('admin', 'dev'));
 
--- Channels: team = alle devs/admins, admin = alleen admins, dm = alleen de deelnemers.
+-- Channels: team = all developers/admins, admin = admins only, dm = participants only.
 create policy "View accessible channels"
   on public.channels for select
   using (
@@ -99,8 +100,8 @@ create policy "Create DM channels"
   on public.channels for insert
   with check (type = 'dm' and public.is_dev_or_admin());
 
--- Bypasst RLS bewust (security definer) om te bepalen in welke kanalen je zit,
--- zonder de recursieve zelf-join die anders nodig zou zijn in de policy hieronder.
+-- Intentionally bypasses RLS (security definer) to determine channel membership
+-- without the recursive self-join that the policy below would otherwise require.
 create or replace function public.my_channel_ids()
 returns setof uuid
 language sql
@@ -111,8 +112,8 @@ as $$
   select channel_id from public.channel_members where user_id = auth.uid();
 $$;
 
--- Je ziet je eigen lidmaatschappen, plus wie er verder in jouw kanalen zit
--- (nodig om te weten met wie je praat in een DM).
+-- Users can see their own memberships and the other members of their channels,
+-- which is required to identify the other participant in a DM.
 create policy "View memberships of your own channels"
   on public.channel_members for select
   using (
@@ -120,8 +121,8 @@ create policy "View memberships of your own channels"
     or channel_id in (select public.my_channel_ids())
   );
 
--- Je mag jezelf toevoegen, of iemand anders toevoegen aan een DM waar je zelf al in zit
--- (zo kun je een gesprek starten: eerst jezelf, dan de ander).
+-- Users may add themselves or add someone else to a DM they already belong to.
+-- This allows a conversation to start by adding yourself first, then the other person.
 create policy "Add members to own DM channels"
   on public.channel_members for insert
   with check (
@@ -196,11 +197,11 @@ create policy "Add attachments to own messages"
     exists (select 1 from public.messages where id = message_id and sender_id = auth.uid())
   );
 
--- Live updates (nieuwe berichten verschijnen zonder te verversen).
+-- Live updates allow new messages to appear without refreshing the page.
 alter publication supabase_realtime add table public.messages;
 
--- Admin-logboek: alleen welk bestand, door wie, in welk gesprek/kanaal.
--- Leest expres nooit messages.body, zodat berichtinhoud privé blijft.
+-- Admin audit log: records only which file was shared, by whom, and in which conversation/channel.
+-- It intentionally never reads messages.body, keeping message contents private.
 create or replace function public.admin_file_log()
 returns table (
   attachment_id uuid,
@@ -244,7 +245,7 @@ $$;
 
 grant execute on function public.admin_file_log() to authenticated;
 
--- Opslag voor gedeelde bestanden. Pad-conventie: {channel_id}/{bestandsnaam}.
+-- Storage for shared files. Path convention: {channel_id}/{file_name}.
 insert into storage.buckets (id, name, public)
 values ('chat-files', 'chat-files', false)
 on conflict (id) do nothing;

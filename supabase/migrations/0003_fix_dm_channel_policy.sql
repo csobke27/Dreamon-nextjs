@@ -1,8 +1,8 @@
--- Voer dit eenmalig uit in Supabase Dashboard -> SQL Editor -> New query -> Run
--- Repareert het starten van een nieuw DM-gesprek: de oude policy controleerde
--- of het kanaal bestaat via een gewone query op "channels", maar die tabel is
--- voor een gloednieuw DM-kanaal nog niet leesbaar voor jou (je bent er immers
--- nog geen lid van) -> kip-ei probleem. Deze functie omzeilt dat bewust.
+-- Run this once in Supabase Dashboard -> SQL Editor -> New query -> Run
+-- Fixes the creation of a new DM conversation. The old policy checked whether
+-- the channel existed through a regular query on "channels", but a brand-new DM
+-- channel is not yet readable because the user is not a member. This function
+-- intentionally bypasses that circular dependency.
 
 create or replace function public.channel_is_dm(cid uuid)
 returns boolean

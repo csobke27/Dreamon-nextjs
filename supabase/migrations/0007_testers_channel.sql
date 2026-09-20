@@ -1,10 +1,10 @@
--- Voer dit eenmalig uit in Supabase Dashboard -> SQL Editor -> New query -> Run
--- Vereist dat 0006 al is uitgevoerd.
--- Voegt een testers-kanaal toe: zichtbaar voor testers + devs/admins.
--- Testers kunnen zelf geen DM starten (dat blijft voorbehouden aan
--- devs/admins via de bestaande "Create DM channels" / "Add members to own
--- DM channels" policies), maar kunnen wel gewoon meepraten en bestanden
--- versturen zodra een dev/admin een gesprek met hen geopend heeft.
+-- Run this once in Supabase Dashboard -> SQL Editor -> New query -> Run
+-- Requires 0006 to have been run first.
+-- Adds a testers channel visible to testers, developers, and admins.
+-- Testers cannot start DMs themselves; that remains restricted to developers
+-- and admins through the existing "Create DM channels" and "Add members to own
+-- DM channels" policies. Testers can participate and share files after a
+-- developer or admin opens a conversation with them.
 
 create or replace function public.is_tester_dev_or_admin()
 returns boolean

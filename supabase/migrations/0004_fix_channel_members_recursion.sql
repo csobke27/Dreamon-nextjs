@@ -1,8 +1,8 @@
--- Voer dit eenmalig uit in Supabase Dashboard -> SQL Editor -> New query -> Run
--- De vorige fix checkte lidmaatschap met een query op channel_members binnen
--- een policy VAN channel_members zelf -> "infinite recursion detected in
--- policy". Deze functie (security definer) omzeilt dat, net als bij de
--- eerdere kip-ei problemen.
+-- Run this once in Supabase Dashboard -> SQL Editor -> New query -> Run
+-- The previous fix checked membership by querying channel_members from within
+-- a channel_members policy, causing "infinite recursion detected in policy".
+-- This security-definer function bypasses that issue, as with the earlier
+-- circular dependency.
 
 create or replace function public.is_member_of(cid uuid)
 returns boolean
