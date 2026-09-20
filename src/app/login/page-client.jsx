@@ -29,9 +29,9 @@ export default function LoginPageClient() {
 
     if (signInError) {
       if (signInError.code === "email_not_confirmed") {
-        setError("Bevestig eerst je e-mailadres via de link die we je stuurden.");
+        setError("Please confirm your email address using the link we sent you.");
       } else {
-        setError("E-mailadres of wachtwoord is onjuist.");
+        setError("Email address or password is incorrect.");
       }
       return;
     }
@@ -42,7 +42,7 @@ export default function LoginPageClient() {
   return (
     <Container fluid className="auth-page">
       <div className="auth-card">
-        <h1>Inloggen</h1>
+        <h1>Log in</h1>
 
         <Form onSubmit={handleSubmit}>
           {error && (
@@ -52,7 +52,7 @@ export default function LoginPageClient() {
           )}
 
           <Form.Group className="mb-3" controlId="loginEmail">
-            <Form.Label>E-mailadres</Form.Label>
+            <Form.Label>Email address</Form.Label>
             <Form.Control
               type="email"
               required
@@ -63,7 +63,7 @@ export default function LoginPageClient() {
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="loginPassword">
-            <Form.Label>Wachtwoord</Form.Label>
+            <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
               required
@@ -76,21 +76,21 @@ export default function LoginPageClient() {
           <Form.Group className="mb-3" controlId="loginRememberMe">
             <Form.Check
               type="checkbox"
-              label="Ingelogd blijven"
+              label="Stay signed in"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
             />
           </Form.Group>
 
           <Button type="submit" variant="primary" disabled={loading}>
-            {loading ? "Bezig..." : "Inloggen"}
+            {loading ? "Working..." : "Log in"}
           </Button>
         </Form>
 
         <div className="auth-links">
-          <Link href="/forgot-password">Wachtwoord vergeten?</Link>
+          <Link href="/forgot-password">Forgot password?</Link>
           <br />
-          Nog geen account? <Link href="/register">Registreer</Link>
+          Don&apos;t have an account? <Link href="/register">Register</Link>
         </div>
       </div>
     </Container>

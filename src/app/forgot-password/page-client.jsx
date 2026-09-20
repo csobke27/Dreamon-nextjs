@@ -30,17 +30,17 @@ export default function ForgotPasswordPageClient() {
   return (
     <Container fluid className="auth-page">
       <div className="auth-card">
-        <h1>Wachtwoord vergeten</h1>
+        <h1>Forgot password</h1>
 
         {submitted ? (
           <Alert variant="success" className="auth-success">
-            Als dit e-mailadres bij ons bekend is, hebben we een link
-            gestuurd om je wachtwoord opnieuw in te stellen.
+            If this email address is known to us, we&apos;ve sent a link to
+            reset your password.
           </Alert>
         ) : (
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="forgotEmail">
-              <Form.Label>E-mailadres</Form.Label>
+              <Form.Label>Email address</Form.Label>
               <Form.Control
                 type="email"
                 required
@@ -51,13 +51,13 @@ export default function ForgotPasswordPageClient() {
             </Form.Group>
 
             <Button type="submit" variant="primary" disabled={loading}>
-              {loading ? "Bezig..." : "Verstuur link"}
+              {loading ? "Working..." : "Send link"}
             </Button>
           </Form>
         )}
 
         <div className="auth-links">
-          <Link href="/login">Terug naar inloggen</Link>
+          <Link href="/login">Back to log in</Link>
         </div>
       </div>
     </Container>

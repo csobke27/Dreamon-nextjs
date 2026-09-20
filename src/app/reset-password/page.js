@@ -1,7 +1,7 @@
 import ResetPasswordPageClient from "./page-client";
 
 export const metadata = {
-  title: "Dreamon | Nieuw wachtwoord",
+  title: "Dreamon | Reset Password",
 };
 
 export default function ResetPasswordPage() {
