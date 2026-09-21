@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import { createClient } from "../../lib/supabase/client";
+import { useAuth } from "../../context/auth-context";
 
 export default function RegisterPageClient() {
   const [email, setEmail] = useState("");
@@ -15,6 +17,14 @@ export default function RegisterPageClient() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { authLoading, user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+      if (!authLoading && user) {
+        router.replace("/");
+      }
+    }, [authLoading, router, user]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -48,6 +58,8 @@ export default function RegisterPageClient() {
 
     setSuccess(true);
   }
+
+  if (authLoading || user) return null;
 
   return (
     <Container fluid className="auth-page">

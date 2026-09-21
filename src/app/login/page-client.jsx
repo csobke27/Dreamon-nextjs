@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Container from "react-bootstrap/Container";
@@ -11,12 +11,18 @@ import { useAuth } from "../../context/auth-context";
 
 export default function LoginPageClient() {
   const router = useRouter();
-  const { signIn } = useAuth();
+  const { signIn, user, loading: authLoading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.replace("/");
+    }
+  }, [authLoading, router, user]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -38,6 +44,8 @@ export default function LoginPageClient() {
 
     router.push("/");
   }
+
+  if (authLoading || user) return null;
 
   return (
     <Container fluid className="auth-page">
