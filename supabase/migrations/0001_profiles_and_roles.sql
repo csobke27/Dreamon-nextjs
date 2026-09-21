@@ -1,4 +1,4 @@
--- Voer dit eenmalig uit in Supabase Dashboard -> SQL Editor -> New query -> Run
+-- Run this once in Supabase Dashboard -> SQL Editor -> New query -> Run
 
 create type public.app_role as enum ('admin', 'dev', 'user');
 
@@ -11,20 +11,20 @@ create table if not exists public.profiles (
 
 alter table public.profiles enable row level security;
 
--- "Automatically expose new tables" staat bewust uit op dit project, dus
--- zonder deze GRANT geeft Postgres altijd "permission denied", ongeacht
--- de RLS-policy hieronder.
+-- "Automatically expose new tables" is intentionally disabled for this project,
+-- so without this GRANT Postgres always returns "permission denied", regardless
+-- of the RLS policy below.
 grant select on public.profiles to authenticated;
 
--- Iedereen mag alleen zijn eigen profiel (en dus rol) lezen.
+-- Everyone may only read their own profile and role.
 create policy "Users can view their own profile"
   on public.profiles for select
   using (auth.uid() = id);
 
--- Niemand mag zelf zijn rol aanpassen (geen update-policy).
--- Rollen wijzig je zelf via Supabase Table Editor, tot er een admin-paneel is.
+-- Nobody may change their own role (there is no update policy).
+-- Change roles manually through the Supabase Table Editor until an admin panel exists.
 
--- Maakt automatisch een profiel (met rol 'user') aan zodra iemand registreert.
+-- Automatically creates a profile with the 'user' role when someone registers.
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql

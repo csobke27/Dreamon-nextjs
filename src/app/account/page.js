@@ -3,7 +3,7 @@ import { createClient } from "../../lib/supabase/server";
 import AccountPageClient from "./page-client";
 
 export const metadata = {
-  title: "Dreamon | Mijn account",
+  title: "Dreamon | My Account",
 };
 
 export default async function AccountPage() {

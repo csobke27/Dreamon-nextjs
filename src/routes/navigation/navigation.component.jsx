@@ -77,9 +77,9 @@ const Navigation = () => {
                                 <Nav.Link as={Link} href="/blog">Blog</Nav.Link>
                                 {!loading && (
                                     user ? (
-                                        <Nav.Link as={Link} href="/account">Mijn account</Nav.Link>
+                                        <Nav.Link as={Link} href="/account">My Account</Nav.Link>
                                     ) : (
-                                        <Nav.Link as={Link} href="/login">Inloggen</Nav.Link>
+                                        <Nav.Link as={Link} href="/login">Log In</Nav.Link>
                                     )
                                 )}
                                 {/* <Nav.Link href="https://www.gofundme.com/f/nyx-legacy-a-story-to-be-told">GoFundMe</Nav.Link> */}

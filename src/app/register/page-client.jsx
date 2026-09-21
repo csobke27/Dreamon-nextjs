@@ -31,12 +31,12 @@ export default function RegisterPageClient() {
     setError(null);
 
     if (password.length < 8) {
-      setError("Wachtwoord moet minimaal 8 tekens lang zijn.");
+      setError("Password must be at least 8 characters long.");
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Wachtwoorden komen niet overeen.");
+      setError("Passwords do not match.");
       return;
     }
 
@@ -52,7 +52,7 @@ export default function RegisterPageClient() {
     setLoading(false);
 
     if (signUpError) {
-      setError("Er ging iets mis. Probeer het later opnieuw.");
+      setError("Something went wrong. Please try again later.");
       return;
     }
 
@@ -64,11 +64,11 @@ export default function RegisterPageClient() {
   return (
     <Container fluid className="auth-page">
       <div className="auth-card">
-        <h1>Account maken</h1>
+        <h1>Create account</h1>
 
         {success ? (
           <Alert variant="success" className="auth-success">
-            Check je e-mail om je account te bevestigen.
+            Check your email to confirm your account.
           </Alert>
         ) : (
           <Form onSubmit={handleSubmit}>
@@ -79,7 +79,7 @@ export default function RegisterPageClient() {
             )}
 
             <Form.Group className="mb-3" controlId="registerEmail">
-              <Form.Label>E-mailadres</Form.Label>
+              <Form.Label>Email address</Form.Label>
               <Form.Control
                 type="email"
                 required
@@ -90,7 +90,7 @@ export default function RegisterPageClient() {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="registerPassword">
-              <Form.Label>Wachtwoord</Form.Label>
+              <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
                 required
@@ -102,7 +102,7 @@ export default function RegisterPageClient() {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="registerConfirmPassword">
-              <Form.Label>Bevestig wachtwoord</Form.Label>
+              <Form.Label>Confirm password</Form.Label>
               <Form.Control
                 type="password"
                 required
@@ -114,13 +114,13 @@ export default function RegisterPageClient() {
             </Form.Group>
 
             <Button type="submit" variant="primary" disabled={loading}>
-              {loading ? "Bezig..." : "Account maken"}
+              {loading ? "Working..." : "Create account"}
             </Button>
           </Form>
         )}
 
         <div className="auth-links">
-          Heb je al een account? <Link href="/login">Log in</Link>
+          Already have an account? <Link href="/login">Log in</Link>
         </div>
       </div>
     </Container>

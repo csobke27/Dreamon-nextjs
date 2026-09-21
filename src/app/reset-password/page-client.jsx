@@ -20,12 +20,12 @@ export default function ResetPasswordPageClient() {
     setError(null);
 
     if (password.length < 8) {
-      setError("Wachtwoord moet minimaal 8 tekens lang zijn.");
+      setError("Password must be at least 8 characters long.");
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Wachtwoorden komen niet overeen.");
+      setError("Passwords do not match.");
       return;
     }
 
@@ -35,7 +35,7 @@ export default function ResetPasswordPageClient() {
     setLoading(false);
 
     if (updateError) {
-      setError("Deze link is verlopen of al gebruikt. Vraag een nieuwe aan.");
+      setError("This link has expired or was already used. Request a new one.");
       return;
     }
 
@@ -45,7 +45,7 @@ export default function ResetPasswordPageClient() {
   return (
     <Container fluid className="auth-page">
       <div className="auth-card">
-        <h1>Nieuw wachtwoord instellen</h1>
+        <h1>Set new password</h1>
 
         <Form onSubmit={handleSubmit}>
           {error && (
@@ -55,7 +55,7 @@ export default function ResetPasswordPageClient() {
           )}
 
           <Form.Group className="mb-3" controlId="newPassword">
-            <Form.Label>Nieuw wachtwoord</Form.Label>
+            <Form.Label>New password</Form.Label>
             <Form.Control
               type="password"
               required
@@ -67,7 +67,7 @@ export default function ResetPasswordPageClient() {
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="confirmNewPassword">
-            <Form.Label>Bevestig nieuw wachtwoord</Form.Label>
+            <Form.Label>Confirm new password</Form.Label>
             <Form.Control
               type="password"
               required
@@ -79,7 +79,7 @@ export default function ResetPasswordPageClient() {
           </Form.Group>
 
           <Button type="submit" variant="primary" disabled={loading}>
-            {loading ? "Bezig..." : "Wachtwoord opslaan"}
+            {loading ? "Working..." : "Save password"}
           </Button>
         </Form>
       </div>
